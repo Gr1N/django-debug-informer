@@ -12,7 +12,7 @@ setup(
     author='Nikita Grishko',
     author_email='grin.minsk+github@gmail.com',
     url='https://github.com/Gr1N/django-debug-informer',
-    download_url='',  # TODO
+    download_url='https://pypi.python.org/pypi/django-debug-informer',
     license='MIT',
     packages=find_packages(exclude=(
         'tests.*',
