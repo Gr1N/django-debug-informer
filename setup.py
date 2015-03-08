@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='django-debug-informer',
-    version='0.0.1',
+    version='0.1.0',
     description='A simple application that helps displays various debug information about the Django project',
     long_description=open('README.md', encoding='utf-8').read(),
     author='Nikita Grishko',
