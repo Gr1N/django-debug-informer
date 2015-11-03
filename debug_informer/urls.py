@@ -8,9 +8,11 @@ from debug_informer.views import (
 )
 
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^$',
         IndexView.as_view(), name='index'),
-    url(r'^versions/(?P<category>%(categories)s)/(?P<name>[a-zA-Z0-9_-]+)?/?$' % {'categories': '|'.join(VersionsView.categories)},
-        VersionsView.as_view(), name='versions'),
+    url(r'^versions/(?P<category>%(categories)s)/(?P<name>[a-zA-Z0-9_-]+)?/?$' % {
+        'categories': '|'.join(VersionsView.categories)
+    }, VersionsView.as_view(), name='versions'),
 )
