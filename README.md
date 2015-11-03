@@ -18,6 +18,13 @@ And add `debug_informer` to your `INSTALLED_APPS` setting:
         'debug_informer',
     )
 
+Include the application urls into your project root urlconf:
+
+    urlpatterns = patterns('',
+        # ...
+        url(r'^djdi/', include('debug_informer.urls', namespace='djdi')),
+    )
+
 Enjoy!
 
 # Usage
