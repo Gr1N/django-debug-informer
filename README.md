@@ -2,7 +2,7 @@
 
 [![Build Status](https://api.travis-ci.org/Gr1N/django-debug-informer.png "Build Status")](https://travis-ci.org/Gr1N/django-debug-informer)
 
-The Django Debug Informer is a simple application that helps displays various debug information about the Django project. It works on Django 1.4.x to 1.7.x and Python 2.6.x to 3.4.x.
+The Django Debug Informer is a simple application that helps displays various debug information about the Django project. It works on Django 1.4.x to 1.8.x and Python 2.6.x to 3.5.x.
 
 
 # Installation
