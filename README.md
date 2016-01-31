@@ -18,6 +18,13 @@ And add `debug_informer` to your `INSTALLED_APPS` setting:
         'debug_informer',
     )
 
+Add `DebugInformerHeadersMiddleware` to your `MIDDLEWARE_CLASSES` setting:
+
+    MIDDLEWARE_CLASSES = [
+        # ...
+        'debug_informer.middleware.DebugInformerHeadersMiddleware',
+    ]
+
 Include the application urls into your project root urlconf:
 
     urlpatterns = [
@@ -35,6 +42,9 @@ Get Python version:
     ...
     < HTTP/1.0 200 OK
     < Content-Type: application/json
+    < X-DI-Backend-Host: backend-host.local
+    < X-DI-Backend-Pid: 11137
+    < X-DI-Backend-Start-At: 2016-01-31T10:45:24.486301
     ...
     {
       "name": "Python",
@@ -47,6 +57,9 @@ Get packages versions:
     ...
     < HTTP/1.0 200 OK
     < Content-Type: application/json
+    < X-DI-Backend-Host: backend-host.local
+    < X-DI-Backend-Pid: 11137
+    < X-DI-Backend-Start-At: 2016-01-31T10:45:24.486301
     ...
     {
       "list": [
@@ -88,6 +101,9 @@ Get version for package:
     ...
     < HTTP/1.0 200 OK
     < Content-Type: application/json
+    < X-DI-Backend-Host: backend-host.local
+    < X-DI-Backend-Pid: 11137
+    < X-DI-Backend-Start-At: 2016-01-31T10:45:24.486301
     ...
     {
       "name": "Django",
@@ -100,6 +116,9 @@ Specified package not found:
     ...
     < HTTP/1.0 404 NOT FOUND
     < Content-Type: application/json
+    < X-DI-Backend-Host: backend-host.local
+    < X-DI-Backend-Pid: 11137
+    < X-DI-Backend-Start-At: 2016-01-31T10:45:24.486301
     ...
     {}
 
