@@ -1,79 +1,67 @@
 # -*- coding: utf-8 -*-
 
-import json
 import sys
+from http import HTTPStatus
 
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.test import TestCase
-from django.utils.six.moves import http_client
 
-from debug_informer.views import (
-    IndexView,
-    VersionsView,
-)
 
 __all__ = (
     'IndexViewTests',
-    'VersionsViewTests',
+    'VersionsPythonViewTests',
+    'VersionsPackagesViewTests',
+    'VersionsPackageViewTests',
 )
 
 
 class IndexViewTests(TestCase):
-    def view_url(self):
-        return reverse(IndexView.view_name)
+    view_url = reverse_lazy('djdi:index')
 
-    def test_post_not_allowed(self):
-        response = self.client.post(self.view_url())
-        self.assertEqual(response.status_code, http_client.METHOD_NOT_ALLOWED)
-
-    def test_get_ok(self):
-        response = self.client.get(self.view_url())
-        self.assertEqual(response.status_code, http_client.OK)
+    def test_ok(self):
+        response = self.client.get(self.view_url)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
 
 
-class VersionsViewTests(TestCase):
-    def view_url(self, category, name=None):
-        args = (category,)
-        if name is not None:
-            args = args + (name,)
+class VersionsPythonViewTests(TestCase):
+    view_url = reverse_lazy('djdi:versions:python')
 
-        return reverse(VersionsView.view_name, args=args)
+    def test_ok(self):
+        response = self.client.get(self.view_url)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
 
-    def test_post_not_allowed(self):
-        response = self.client.post(self.view_url('python'))
-        self.assertEqual(response.status_code, http_client.METHOD_NOT_ALLOWED)
-
-    def test_python(self):
-        response = self.client.get(self.view_url('python'))
-        self.assertEqual(response.status_code, http_client.OK)
-
-        content = json.loads(response.content.decode('utf-8'))
-        data = content['data']
-        self.assertEqual(data['category'], 'python')
+        data = response.json()
+        self.assertEqual(data['name'], 'Python')
         self.assertEqual(data['version'], sys.version)
 
-    def test_packages(self):
-        response = self.client.get(self.view_url('packages'))
-        self.assertEqual(response.status_code, http_client.OK)
 
-        content = json.loads(response.content.decode('utf-8'))
-        data = content['data']
-        for package in data:
-            self.assertEqual(package['category'], 'packages')
+class VersionsPackagesViewTests(TestCase):
+    view_url = reverse_lazy('djdi:versions:packages')
+
+    def test_ok(self):
+        response = self.client.get(self.view_url)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+
+        data = response.json()
+        self.assertIn('total', data)
+
+        for package in data['list']:
             self.assertIn('name', package)
             self.assertIn('version', package)
 
-    def test_package(self):
-        response = self.client.get(self.view_url('packages', name='Django'))
-        self.assertEqual(response.status_code, http_client.OK)
 
-        content = json.loads(response.content.decode('utf-8'))
-        data = content['data']
-        self.assertEqual(data['category'], 'packages')
+class VersionsPackageViewTests(TestCase):
+    def view_url(self, name):
+        return reverse('djdi:versions:package', args=(name,))
+
+    def test_not_found(self):
+        response = self.client.get(self.view_url('fakepackage'))
+        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
+
+    def test_ok(self):
+        response = self.client.get(self.view_url('Django'))
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+
+        data = response.json()
         self.assertEqual(data['name'], 'Django')
-
-    def test_package_not_found(self):
-        response = self.client.get(self.view_url(
-            'packages', name='fakepackage'
-        ))
-        self.assertEqual(response.status_code, http_client.NOT_FOUND)
+        self.assertIn('version', data)

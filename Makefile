@@ -2,6 +2,8 @@
 
 example:
 	PYTHONPATH=. \
+		django-admin.py migrate --settings=example.settings
+	PYTHONPATH=. \
 		django-admin.py runserver --settings=example.settings
 
 test:

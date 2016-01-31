@@ -1,95 +1,63 @@
 # -*- coding: utf-8 -*-
 
-import json
+import sys
+from http import HTTPStatus
 
-from django.http import HttpResponse
+try:
+    from pip.utils import get_installed_distributions
+except ImportError:
+    # Backward compatibility for pip<6.0.0
+    from pip.util import get_installed_distributions
+
+from django.http.response import JsonResponse
 from django.views.generic import View
-from django.utils.six import iteritems
-from django.utils.six.moves import http_client
-
-from debug_informer.logic import (
-    Versions,
-)
 
 __all__ = (
     'IndexView',
-    'VersionsView',
+    'VersionsPythonView',
+    'VersionsPackagesView',
+    'VersionsPackageView',
 )
 
 
-CONTENT_TYPE_JSONAPI = 'application/vnd.api+json'
-
-
-class BaseView(View):
-    view_name = None
-
-    def jsonapi_response(self, data=None, status=http_client.OK):
-        # http://jsonapi.org/format/
-
-        content = {
-            'links': {
-                'self': self.request.get_full_path(),
-            },
-            'data': data,
-        }
-        content = json.dumps(content, indent=2)
-
-        return HttpResponse(content=content, content_type=CONTENT_TYPE_JSONAPI,
-                            status=status)
-
-    def not_found_response(self):
-        return HttpResponse(status=http_client.NOT_FOUND)
-
-
-class IndexView(BaseView):
-    view_name = 'djdi:index'
-
+class IndexView(View):
     def get(self, request, *args, **kwargs):
-        return self.jsonapi_response()
+        return JsonResponse({})
 
 
-class VersionsView(BaseView):
-    view_name = 'djdi:versions'
-
-    categories = (
-        'python',
-        'packages',
-    )
-
+class VersionsPythonView(View):
     def get(self, request, *args, **kwargs):
-        category = kwargs['category']
-
-        return getattr(self, 'handle_{0}'.format(category))(
-            request, *args, **kwargs
-        )
-
-    def handle_python(self, request, *args, **kwargs):
-        return self.jsonapi_response(data={
-            'category': 'python',
-            'version': Versions.python(),
+        return JsonResponse({
+            'name': 'Python',
+            'version': sys.version,
         })
 
-    def handle_packages(self, request, *args, **kwargs):
-        packages = Versions.packages()
-        package_name = kwargs['name']
 
-        if package_name:
-            return self.handle_package(packages, package_name)
+class VersionsPackagesView(View):
+    def get(self, request, *args, **kwargs):
+        packages = [{
+            'name': d.project_name,
+            'version': d.version,
+        } for d in get_installed_distributions()]
 
-        data = [{
-            'category': 'packages',
-            'name': name,
-            'version': version,
-        } for name, version in iteritems(packages)]
+        return JsonResponse({
+            'list': packages,
+            'total': len(packages),
+        })
 
-        return self.jsonapi_response(data=data)
 
-    def handle_package(self, packages, name):
-        if name not in packages:
-            return self.not_found_response()
+class VersionsPackageView(View):
+    def get(self, request, *args, **kwargs):
+        packages = {
+            d.project_name: d.version
+            for d in get_installed_distributions()
+        }
+        package = kwargs['name']
 
-        return self.jsonapi_response(data={
-            'category': 'packages',
-            'name': name,
-            'version': packages[name],
+        if package not in packages:
+            return JsonResponse({}, status=HTTPStatus.NOT_FOUND.value)
+
+        return JsonResponse({
+            'name': package,
+            'version': packages[package],
         })

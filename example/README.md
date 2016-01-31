@@ -3,7 +3,7 @@
 ## About
 
 This sample project demonstrates how to use the debug informer. It is designed
-to run under the latest stable version of Django, currently 1.7.x.
+to run under the latest stable version of Django, currently 1.9.x.
 
 
 ## How to

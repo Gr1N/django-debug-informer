@@ -2,7 +2,7 @@
 
 [![Build Status](https://api.travis-ci.org/Gr1N/django-debug-informer.png "Build Status")](https://travis-ci.org/Gr1N/django-debug-informer)
 
-The Django Debug Informer is a simple application that helps displays various debug information about the Django project. It works on Django 1.4.x to 1.8.x and Python 2.6.x to 3.5.x.
+The Django Debug Informer is a simple application that helps displays various debug information about the Django project. It works on Django 1.9.x and Python 3.5.x.
 
 
 # Installation
@@ -20,10 +20,10 @@ And add `debug_informer` to your `INSTALLED_APPS` setting:
 
 Include the application urls into your project root urlconf:
 
-    urlpatterns = patterns('',
+    urlpatterns = [
         # ...
         url(r'^djdi/', include('debug_informer.urls', namespace='djdi')),
-    )
+    ]
 
 Enjoy!
 
@@ -34,16 +34,11 @@ Get Python version:
     % curl -v http://127.0.0.1:8000/djdi/versions/python/
     ...
     < HTTP/1.0 200 OK
-    < Content-Type: application/vnd.api+json
+    < Content-Type: application/json
     ...
     {
-      "data": {
-        "category": "python",
-        "version": "2.7.6 (default, Sep  9 2014, 15:04:36) \n[GCC 4.2.1 Compatible Apple LLVM 6.0 (clang-600.0.39)]"
-      },
-      "links": {
-        "self": "/djdi/versions/python/"
-      }
+      "name": "Python",
+      "version": "3.5.1 (default, Dec  7 2015, 21:59:10) \n[GCC 4.2.1 Compatible Apple LLVM 7.0.0 (clang-700.1.76)]"
     }
 
 Get packages versions:
@@ -51,61 +46,62 @@ Get packages versions:
     % curl -v http://127.0.0.1:8000/djdi/versions/packages/
     ...
     < HTTP/1.0 200 OK
-    < Content-Type: application/vnd.api+json
+    < Content-Type: application/json
     ...
     {
-      "data": [
+      "list": [
         {
-          "category": "packages",
-          "version": "3.7.1",
-          "name": "coverage"
+          "name": "Django",
+          "version": "1.9.1"
         },
         {
-          "category": "packages",
-          "version": "1.7.5",
-          "name": "Django"
+          "name": "pip",
+          "version": "8.0.2"
         },
         {
-          "category": "packages",
-          "version": "12.0.5",
-          "name": "setuptools"
+          "name": "pluggy",
+          "version": "0.3.1"
         },
         {
-          "category": "packages",
-          "version": "6.0.8",
-          "name": "pip"
+          "name": "py",
+          "version": "1.4.31"
+        },
+        {
+          "name": "setuptools",
+          "version": "12.0.5"
+        },
+        {
+          "name": "tox",
+          "version": "2.3.1"
+        },
+        {
+          "name": "virtualenv",
+          "version": "14.0.3"
         }
       ],
-      "links": {
-        "self": "/djdi/versions/packages/"
-      }
+      "total": 7
     }
 
 Get version for package:
 
-    % curl -v http://127.0.0.1:8000/djdi/versions/packages/Django/
+    % curl -v http://127.0.0.1:8000/djdi/versions/package/Django/
     ...
     < HTTP/1.0 200 OK
-    < Content-Type: application/vnd.api+json
+    < Content-Type: application/json
     ...
     {
-      "data": {
-        "category": "packages",
-        "version": "1.7.5",
-        "name": "Django"
-      },
-      "links": {
-        "self": "/djdi/versions/packages/Django/"
-      }
+      "name": "Django",
+      "version": "1.9.1"
     }
 
 Specified package not found:
 
-    % curl -v http://127.0.0.1:8000/djdi/versions/packages/awesomepackage/
+    % curl -v http://127.0.0.1:8000/djdi/versions/package/awesomepackage/
     ...
     < HTTP/1.0 404 NOT FOUND
-    < Content-Type: text/html; charset=utf-8
+    < Content-Type: application/json
     ...
+    {}
 
 
 # License
