@@ -1,26 +1,21 @@
-# django-debug-informer
+# django-debug-informer [![Build Status](https://travis-ci.org/Gr1N/django-debug-informer.svg?branch=master)](https://travis-ci.org/Gr1N/django-debug-informer) [![codecov](https://codecov.io/gh/Gr1N/django-debug-informer/branch/master/graph/badge.svg)](https://codecov.io/gh/Gr1N/django-debug-informer) [![Updates](https://pyup.io/repos/github/Gr1N/django-debug-informer/shield.svg)](https://pyup.io/repos/github/Gr1N/django-debug-informer/)
 
-[![Build Status](https://api.travis-ci.org/Gr1N/django-debug-informer.png "Build Status")](https://travis-ci.org/Gr1N/django-debug-informer)
+The Django Debug Informer is a simple application that helps you to display various debug information about the Django project.
 
-The Django Debug Informer is a simple application that helps displays various debug information about the Django project. It works on Django 1.9.x and Python 3.5.x.
+## Installation
 
-
-# Installation
-
-Install the Debug Informer using [pip](http://www.pip-installer.org/):
-
-    % pip install django-debug-informer
+    $ pip install django-debug-informer
 
 And add `debug_informer` to your `INSTALLED_APPS` setting:
 
-    INSTALLED_APPS = (
+    INSTALLED_APPS = [
         # ...
         'debug_informer',
-    )
+    ]
 
-Add `DebugInformerHeadersMiddleware` to your `MIDDLEWARE_CLASSES` setting:
+Add `DebugInformerHeadersMiddleware` to your `MIDDLEWARES` setting:
 
-    MIDDLEWARE_CLASSES = [
+    MIDDLEWARES = [
         # ...
         'debug_informer.middleware.DebugInformerHeadersMiddleware',
     ]
@@ -29,100 +24,102 @@ Include the application urls into your project root urlconf:
 
     urlpatterns = [
         # ...
-        url(r'^djdi/', include('debug_informer.urls', namespace='djdi')),
+        path('djdi/', include('debug_informer.urls', namespace='djdi')),
     ]
 
 Enjoy!
 
-# Usage
+## Usage
 
-Get Python version:
+To get Python version:
 
-    % curl -v http://127.0.0.1:8000/djdi/versions/python/
-    ...
-    < HTTP/1.0 200 OK
-    < Content-Type: application/json
-    < X-DI-Backend-Host: backend-host.local
-    < X-DI-Backend-Pid: 11137
-    < X-DI-Backend-Start-At: 2016-01-31T10:45:24.486301
-    ...
+    $ http :8000/djdi/versions/python/
+    HTTP/1.1 200 OK
+    Content-Length: 132
+    Content-Type: application/json
+    Date: Sun, 29 Apr 2018 16:53:05 GMT
+    Server: WSGIServer/0.2 CPython/3.6.5
+    X-DI-Backend-Host: bat-book.local
+    X-DI-Backend-Pid: 60817
+    X-DI-Backend-Start-At: 2018-04-29T16:52:56.380979+00:00
+    X-Frame-Options: SAMEORIGIN
+
     {
-      "name": "Python",
-      "version": "3.5.1 (default, Dec  7 2015, 21:59:10) \n[GCC 4.2.1 Compatible Apple LLVM 7.0.0 (clang-700.1.76)]"
+        "name": "Python",
+        "version": "3.6.5 (default, Mar 30 2018, 06:41:53) \n[GCC 4.2.1 Compatible Apple LLVM 9.0.0 (clang-900.0.39.2)]"
     }
 
-Get packages versions:
+To get list of installed packages:
 
-    % curl -v http://127.0.0.1:8000/djdi/versions/packages/
-    ...
-    < HTTP/1.0 200 OK
-    < Content-Type: application/json
-    < X-DI-Backend-Host: backend-host.local
-    < X-DI-Backend-Pid: 11137
-    < X-DI-Backend-Start-At: 2016-01-31T10:45:24.486301
-    ...
+    ➔ http :8000/djdi/versions/packages/
+    HTTP/1.1 200 OK
+    Content-Length: 284
+    Content-Type: application/json
+    Date: Sun, 29 Apr 2018 16:54:52 GMT
+    Server: WSGIServer/0.2 CPython/3.6.5
+    X-DI-Backend-Host: bat-book.local
+    X-DI-Backend-Pid: 60817
+    X-DI-Backend-Start-At: 2018-04-29T16:52:56.380979+00:00
+    X-Frame-Options: SAMEORIGIN
+
     {
-      "list": [
-        {
-          "name": "Django",
-          "version": "1.9.1"
-        },
-        {
-          "name": "pip",
-          "version": "8.0.2"
-        },
-        {
-          "name": "pluggy",
-          "version": "0.3.1"
-        },
-        {
-          "name": "py",
-          "version": "1.4.31"
-        },
-        {
-          "name": "setuptools",
-          "version": "12.0.5"
-        },
-        {
-          "name": "tox",
-          "version": "2.3.1"
-        },
-        {
-          "name": "virtualenv",
-          "version": "14.0.3"
-        }
-      ],
-      "total": 7
+        "list": [
+            {
+                "name": "wheel",
+                "version": "0.31.0"
+            },
+            {
+                "name": "setuptools",
+                "version": "39.1.0"
+            },
+            {
+                "name": "pytz",
+                "version": "2018.4"
+            },
+            {
+                "name": "pip",
+                "version": "10.0.1"
+            },
+            {
+                "name": "Django",
+                "version": "2.0.4"
+            },
+            {
+                "name": "django-debug-informer",
+                "version": "0.3.1.dev0"
+            }
+        ],
+        "total": 6
     }
 
-Get version for package:
+To get specified package:
 
-    % curl -v http://127.0.0.1:8000/djdi/versions/package/Django/
-    ...
-    < HTTP/1.0 200 OK
-    < Content-Type: application/json
-    < X-DI-Backend-Host: backend-host.local
-    < X-DI-Backend-Pid: 11137
-    < X-DI-Backend-Start-At: 2016-01-31T10:45:24.486301
-    ...
+    $ http :8000/djdi/versions/packages/Django/
+    HTTP/1.1 200 OK
+    Content-Length: 38
+    Content-Type: application/json
+    Date: Sun, 29 Apr 2018 16:56:26 GMT
+    Server: WSGIServer/0.2 CPython/3.6.5
+    X-DI-Backend-Host: bat-book.local
+    X-DI-Backend-Pid: 60817
+    X-DI-Backend-Start-At: 2018-04-29T16:52:56.380979+00:00
+    X-Frame-Options: SAMEORIGIN
+
     {
-      "name": "Django",
-      "version": "1.9.1"
+        "name": "Django",
+        "version": "2.0.4"
     }
 
-Specified package not found:
+## Testing and linting
 
-    % curl -v http://127.0.0.1:8000/djdi/versions/package/awesomepackage/
-    ...
-    < HTTP/1.0 404 NOT FOUND
-    < Content-Type: application/json
-    < X-DI-Backend-Host: backend-host.local
-    < X-DI-Backend-Pid: 11137
-    < X-DI-Backend-Start-At: 2016-01-31T10:45:24.486301
-    ...
-    {}
+For testing and linting install [tox](http://tox.readthedocs.io):
 
+    $ pip install tox
 
-# License
+...and run:
+
+    $ tox
+
+## License
 
 *django-debug-informer* is licensed under the MIT license. See the license file for details.

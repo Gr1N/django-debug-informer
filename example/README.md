@@ -1,16 +1,15 @@
-# README
+# Example project
 
 ## About
 
 This sample project demonstrates how to use the debug informer. It is designed
-to run under the latest stable version of Django, currently 1.9.x.
-
+to run under the latest stable version of Django, currently 2.x.
 
 ## How to
 
 The test project requires a working installation of Django:
 
-    % pip install Django
+    $ pip install django django-debug-informer
 
 The following commands must be run from the root directory of a checkout of
 the debug informer, ie. the directory that contains ``example/``.
