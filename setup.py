@@ -22,17 +22,6 @@ setup(
     install_requires=(
         'django>=1.9',
     ),
-    extras_require={
-        'test': (
-            'tox',
-        ),
-        'development': (
-            'flake8',
-            'zest.releaser',
-            'check-manifest',
-            'coverage',
-        ),
-    },
     include_package_data=True,
     zip_safe=False,
     classifiers=(
