@@ -1,12 +1,14 @@
-from django.urls import path, include
+from django.urls import (
+    include,
+    path,
+)
 
 from debug_informer.views import (
     IndexView,
-    VersionsPythonView,
     VersionsPackagesView,
     VersionsPackageView,
+    VersionsPythonView,
 )
-
 
 app_name = 'debug_informer'
 

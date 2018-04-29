@@ -1,8 +1,8 @@
 from http import HTTPStatus
 
 from django.apps import apps as djapps
-from django.urls import reverse_lazy
 from django.test import TestCase
+from django.urls import reverse_lazy
 
 settings = djapps.get_app_config('debug_informer')
 

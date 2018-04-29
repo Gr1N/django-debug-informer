@@ -1,9 +1,11 @@
 import sys
 from http import HTTPStatus
 
-from django.urls import reverse_lazy, reverse
 from django.test import TestCase
-
+from django.urls import (
+    reverse,
+    reverse_lazy,
+)
 
 __all__ = (
     'IndexViewTests',

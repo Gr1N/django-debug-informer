@@ -1,10 +1,12 @@
 import os
 import socket
-from datetime import datetime, timezone
-
-from django.conf import settings
+from datetime import (
+    datetime,
+    timezone,
+)
 
 from django.apps import AppConfig
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 __all__ = (

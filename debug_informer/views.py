@@ -1,10 +1,9 @@
 import sys
 from http import HTTPStatus
 
-from pip._internal.utils.misc import get_installed_distributions
-
 from django.http import JsonResponse
 from django.views import View
+from pip._internal.utils.misc import get_installed_distributions
 
 __all__ = (
     'IndexView',
