@@ -1,6 +1,6 @@
 import os
 import socket
-from datetime import datetime
+from datetime import datetime, timezone
 
 from django.conf import settings
 
@@ -20,7 +20,7 @@ class Config(AppConfig):
         'headers': {
             'X-DI-Backend-Host': socket.gethostname(),
             'X-DI-Backend-Pid': os.getpid(),
-            'X-DI-Backend-Start-At': datetime.utcnow().isoformat(),
+            'X-DI-Backend-Start-At': datetime.now(tz=timezone.utc).isoformat(),
         },
     }
 
@@ -32,7 +32,5 @@ class Config(AppConfig):
         return self.defaults.copy()
 
     def get_setting(self, key, default):
-        return getattr(settings, '{0}_{1}'.format(
-            self.label.upper(),
-            key.upper()
-        ), default)
+        key = f'{self.label.upper()}_{key.upper()}'
+        return getattr(settings, key, default)

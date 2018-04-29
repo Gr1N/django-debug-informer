@@ -1,7 +1,7 @@
 import sys
 from http import HTTPStatus
 
-from django.core.urlresolvers import reverse_lazy, reverse
+from django.urls import reverse_lazy, reverse
 from django.test import TestCase
 
 
@@ -16,7 +16,7 @@ __all__ = (
 class IndexViewTests(TestCase):
     view_url = reverse_lazy('djdi:index')
 
-    def test_ok(self):
+    def test__ok(self):
         response = self.client.get(self.view_url)
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
@@ -24,7 +24,7 @@ class IndexViewTests(TestCase):
 class VersionsPythonViewTests(TestCase):
     view_url = reverse_lazy('djdi:versions:python')
 
-    def test_ok(self):
+    def test__ok(self):
         response = self.client.get(self.view_url)
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
@@ -36,7 +36,7 @@ class VersionsPythonViewTests(TestCase):
 class VersionsPackagesViewTests(TestCase):
     view_url = reverse_lazy('djdi:versions:packages')
 
-    def test_ok(self):
+    def test__ok(self):
         response = self.client.get(self.view_url)
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
@@ -56,7 +56,7 @@ class VersionsPackageViewTests(TestCase):
         response = self.client.get(self.view_url('fakepackage'))
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
 
-    def test_ok(self):
+    def test__ok(self):
         response = self.client.get(self.view_url('Django'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
 

@@ -5,9 +5,6 @@ Quick-start development settings - unsuitable for production.
 
 import os
 
-import django
-
-
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 SECRET_KEY = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
@@ -36,7 +33,8 @@ INSTALLED_APPS = [
     'tests',
 ]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -47,7 +45,3 @@ MIDDLEWARE_CLASSES = [
 ]
 
 ROOT_URLCONF = 'tests.urls'
-
-
-if django.VERSION[:2] < (1, 6):
-    TEST_RUNNER = 'discover_runner.DiscoverRunner'

@@ -1,4 +1,6 @@
-"""WSGI config for example project."""
+"""
+WSGI config for example project.
+"""
 
 import os
 

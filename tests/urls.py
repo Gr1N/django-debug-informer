@@ -1,6 +1,6 @@
-from django.conf.urls import include, url
+from django.urls import path, include
 
 
 urlpatterns = [
-    url(r'^__tests/djdi/', include('debug_informer.urls', namespace='djdi')),
+    path('__tests/djdi/', include('debug_informer.urls', namespace='djdi')),
 ]

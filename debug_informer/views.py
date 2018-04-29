@@ -3,8 +3,8 @@ from http import HTTPStatus
 
 from pip._internal.utils.misc import get_installed_distributions
 
-from django.http.response import JsonResponse
-from django.views.generic import View
+from django.http import JsonResponse
+from django.views import View
 
 __all__ = (
     'IndexView',

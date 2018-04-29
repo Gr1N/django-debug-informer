@@ -18,7 +18,7 @@ setup(
         'example',
     )),
     install_requires=(
-        'django>=1.9',
+        'django>=2.0,<=3.0',
         'pip>=1.10',
     ),
     include_package_data=True,
