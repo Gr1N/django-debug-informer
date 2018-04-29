@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from io import open
 from setuptools import setup, find_packages
 
@@ -7,7 +5,7 @@ from setuptools import setup, find_packages
 setup(
     name='django-debug-informer',
     version='0.3.1.dev0',
-    description='A simple application that helps displays various debug information about the Django project',
+    description='A simple application that helps you to display various debug information about the Django project',
     long_description=open('README.md', encoding='utf-8').read(),
     author='Nikita Grishko',
     author_email='grin.minsk+github@gmail.com',
@@ -21,6 +19,7 @@ setup(
     )),
     install_requires=(
         'django>=1.9',
+        'pip>=1.10',
     ),
     include_package_data=True,
     zip_safe=False,

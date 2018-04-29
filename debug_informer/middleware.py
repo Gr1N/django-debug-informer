@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from django.apps import apps as djapps
 
 settings = djapps.get_app_config('debug_informer')

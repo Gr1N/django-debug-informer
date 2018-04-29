@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Django settings for tests.
 Quick-start development settings - unsuitable for production.
