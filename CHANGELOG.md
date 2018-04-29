@@ -1,7 +1,7 @@
 Changelog for django-debug-informer
 ===================================
 
-0.4.0 (unreleased)
+0.4.0 (2018-04-29)
 ------------------
 
 - Special release for [Sergey Kolosov](https://github.com/sergeykolosov) with a lot of backward incompatible changes:
