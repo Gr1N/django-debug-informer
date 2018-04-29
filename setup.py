@@ -15,7 +15,7 @@ with open(path.join(here, 'requirements.txt'), encoding='utf-8') as f:
 
 setup(
     name='django-debug-informer',
-    version='0.4.0',
+    version='0.4.1.dev0',
     description='A simple application that helps you to display various debug information about the Django project',
     long_description=long_description,
     long_description_content_type='text/markdown',
