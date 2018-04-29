@@ -54,7 +54,7 @@ class VersionsPackageViewTests(TestCase):
     def view_url(self, name):
         return reverse('djdi:versions:package', args=(name,))
 
-    def test_not_found(self):
+    def test__not_found(self):
         response = self.client.get(self.view_url('fakepackage'))
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
 
