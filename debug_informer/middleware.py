@@ -7,7 +7,7 @@ __all__ = (
 )
 
 
-class DebugInformerHeadersMiddleware(object):
+class DebugInformerHeadersMiddleware:
     def process_response(self, request, response):
         headers = getattr(settings, 'HEADERS', {})
         for key, value in headers.items():

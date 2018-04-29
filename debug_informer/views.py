@@ -1,11 +1,7 @@
 import sys
 from http import HTTPStatus
 
-try:
-    from pip.utils import get_installed_distributions
-except ImportError:
-    # Backward compatibility for pip<6.0.0
-    from pip.util import get_installed_distributions
+from pip._internal.utils.misc import get_installed_distributions
 
 from django.http.response import JsonResponse
 from django.views.generic import View
